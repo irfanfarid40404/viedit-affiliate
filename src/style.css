@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+:root {
+  --editor-bg: #0b0c10;
+  --panel-bg: #12141a;
+  --panel-subtle: #171a22;
+  --panel-hover: #1e222e;
+  --border-subtle: #232733;
+  --border-bright: #32384a;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-glow: rgba(99, 102, 241, 0.35);
+  --ai-track: #059669;
+  --user-track: #2563eb;
+  --text-track: #d97706;
+  --effect-track: #7c3aed;
+}
+
+body {
+  margin: 0;
+  background-color: var(--editor-bg);
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #101218;
+}
+::-webkit-scrollbar-thumb {
+  background: #252a3a;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #373f56;
+}
+
+/* Range input styling for CapCut style slider */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #1f2433;
+  height: 5px;
+  border-radius: 4px;
+  outline: none;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #6366f1;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(99, 102, 241, 0.8);
+  transition: transform 0.1s ease;
+}
+input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Glassmorphic elements */
+.panel-glass {
+  background: rgba(18, 20, 26, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
