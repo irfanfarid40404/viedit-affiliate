@@ -68,10 +68,13 @@ export interface AIGenerationRequest {
 }
 
 export interface AIGenerationResponse {
-  success: boolean
+  success?: boolean
   operationId?: string
-  status?: VideoGenerationStatus
+  status?: VideoGenerationStatus | 'queued' | 'processing' | 'completed' | 'failed'
+  progress?: number
   videoUrl?: string
   duration?: number
   error?: string
+  engine?: 'veo' | 'visual-synthesis'
+  fallbackReason?: string
 }

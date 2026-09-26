@@ -164,11 +164,11 @@ function onPointerUp() {
     <!-- Center Guide Alignment Lines (Magnetic Snap) -->
     <div
       v-if="isSnappedX"
-      class="absolute top-0 bottom-0 left-1/2 w-px -translate-x-1/2 bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,1)] pointer-events-none z-30 animate-pulse"
+      class="absolute top-0 bottom-0 left-1/2 w-px -translate-x-1/2 bg-[#e0972f] pointer-events-none z-30"
     ></div>
     <div
       v-if="isSnappedY"
-      class="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,1)] pointer-events-none z-30 animate-pulse"
+      class="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-[#e0972f] pointer-events-none z-30"
     ></div>
 
     <div
@@ -188,7 +188,7 @@ function onPointerUp() {
         class="text-bounding-box relative px-3 py-1.5 transition rounded w-max max-w-none"
         :class="[
           editorStore.selectedTextId === item.id
-            ? 'border-2 border-dashed border-indigo-400 bg-indigo-500/10 shadow-lg'
+            ? 'border border-dashed border-[#e0972f] bg-[#e0972f]/5'
             : 'border border-transparent hover:border-white/30'
         ]"
         @wheel.prevent.stop="onWheelScale($event, item)"
@@ -196,7 +196,7 @@ function onPointerUp() {
         <!-- Rotation Handle on top -->
         <div
           v-if="editorStore.selectedTextId === item.id"
-          class="absolute -top-7 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center cursor-alias shadow hover:scale-110 transition z-20"
+          class="absolute -top-7 left-1/2 -translate-x-1/2 w-5 h-5 rounded-full bg-[#e0972f] text-[#1a1205] flex items-center justify-center cursor-alias transition z-20"
           title="Drag to rotate"
           @pointerdown.stop="onPointerDownRotate($event, item)"
         >
@@ -207,25 +207,25 @@ function onPointerUp() {
         <template v-if="editorStore.selectedTextId === item.id">
           <!-- Top Left -->
           <div
-            class="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-white border-2 border-indigo-600 rounded-full shadow-md cursor-nwse-resize hover:scale-125 z-20 transition-transform"
+            class="absolute -top-1.5 -left-1.5 w-3.5 h-3.5 bg-white border border-[#e0972f] rounded-full cursor-nwse-resize z-20"
             title="Tarik untuk memperkecil/memperbesar"
             @pointerdown.stop="onPointerDownScale($event, item)"
           ></div>
           <!-- Top Right -->
           <div
-            class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-white border-2 border-indigo-600 rounded-full shadow-md cursor-nesw-resize hover:scale-125 z-20 transition-transform"
+            class="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-white border border-[#e0972f] rounded-full cursor-nesw-resize z-20"
             title="Tarik untuk memperkecil/memperbesar"
             @pointerdown.stop="onPointerDownScale($event, item)"
           ></div>
           <!-- Bottom Left -->
           <div
-            class="absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-white border-2 border-indigo-600 rounded-full shadow-md cursor-nesw-resize hover:scale-125 z-20 transition-transform"
+            class="absolute -bottom-1.5 -left-1.5 w-3.5 h-3.5 bg-white border border-[#e0972f] rounded-full cursor-nesw-resize z-20"
             title="Tarik untuk memperkecil/memperbesar"
             @pointerdown.stop="onPointerDownScale($event, item)"
           ></div>
           <!-- Bottom Right -->
           <div
-            class="absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-white border-2 border-indigo-600 rounded-full shadow-md cursor-nwse-resize hover:scale-125 z-20 transition-transform"
+            class="absolute -bottom-1.5 -right-1.5 w-3.5 h-3.5 bg-white border border-[#e0972f] rounded-full cursor-nwse-resize z-20"
             title="Tarik untuk memperkecil/memperbesar"
             @pointerdown.stop="onPointerDownScale($event, item)"
           ></div>
@@ -233,7 +233,7 @@ function onPointerUp() {
           <!-- Scale Indicator Pill -->
           <div
             v-if="isScaling && editorStore.selectedTextId === item.id"
-            class="absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-black/90 text-indigo-300 text-[10px] font-mono border border-indigo-500/50 shadow pointer-events-none z-20"
+            class="absolute -bottom-7 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded bg-[#1c1c1c] text-zinc-200 text-[10px] font-mono border border-[#3d3d3d] pointer-events-none z-20"
           >
             {{ Math.round((item.scale || 1) * 100) }}%
           </div>

@@ -88,15 +88,15 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
 </script>
 
 <template>
-  <div class="h-64 bg-[#0d0f15] border-t border-[#232733] flex flex-col select-none shrink-0">
+  <div class="h-64 bg-[#171717] border-t border-[#2c2c2c] flex flex-col select-none shrink-0">
     <!-- Timeline Top Bar -->
-    <div class="h-9 px-4 bg-[#12141c] border-b border-[#1f2330] flex items-center justify-between text-xs">
+    <div class="h-9 px-4 bg-[#1c1c1c] border-b border-[#262626] flex items-center justify-between text-xs">
       <div class="flex items-center gap-2">
-        <span class="font-semibold text-zinc-300 text-xs flex items-center gap-1.5">
-          <Split class="w-3.5 h-3.5 text-indigo-400" />
-          <span>Timeline (16s Master)</span>
+        <span class="font-medium text-zinc-300 text-xs flex items-center gap-1.5">
+          <Split class="w-3.5 h-3.5 text-zinc-500" />
+          <span>Timeline</span>
         </span>
-        <span class="text-[10px] text-zinc-500 font-mono bg-zinc-800/80 px-1.5 py-0.5 rounded">
+        <span class="text-[10px] text-zinc-500 font-mono bg-[#242424] px-1.5 py-0.5 rounded">
           Playhead: {{ videoService.formatTime(videoStore.currentTime, true) }}
         </span>
       </div>
@@ -104,27 +104,27 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
       <div class="flex items-center gap-3">
         <!-- Marker Legend -->
         <div class="hidden sm:flex items-center gap-2 text-[10px] font-mono">
-          <span class="flex items-center gap-1 text-emerald-400">
-            <span class="w-2 h-2 rounded bg-emerald-500"></span> AI (10s)
+          <span class="flex items-center gap-1 text-zinc-400">
+            <span class="w-2 h-2 rounded-sm bg-[#4e7d5b]"></span> AI (10s)
           </span>
-          <span class="flex items-center gap-1 text-blue-400">
-            <span class="w-2 h-2 rounded bg-blue-500"></span> User (6s)
+          <span class="flex items-center gap-1 text-zinc-400">
+            <span class="w-2 h-2 rounded-sm bg-[#54718c]"></span> User (6s)
           </span>
         </div>
 
         <!-- Zoom Controls -->
-        <div class="flex items-center gap-1 text-zinc-400">
+        <div class="flex items-center gap-1 text-zinc-500">
           <button
             @click="editorStore.timelineZoom = Math.max(1, editorStore.timelineZoom - 0.25)"
-            class="p-1 hover:text-white rounded"
+            class="p-1 hover:text-zinc-200 rounded"
             title="Zoom Out"
           >
             <ZoomOut class="w-3.5 h-3.5" />
           </button>
-          <span class="font-mono text-[10px] text-zinc-400">{{ Math.round(editorStore.timelineZoom * 100) }}%</span>
+          <span class="font-mono text-[10px] text-zinc-500">{{ Math.round(editorStore.timelineZoom * 100) }}%</span>
           <button
             @click="editorStore.timelineZoom = Math.min(2, editorStore.timelineZoom + 0.25)"
-            class="p-1 hover:text-white rounded"
+            class="p-1 hover:text-zinc-200 rounded"
             title="Zoom In"
           >
             <ZoomIn class="w-3.5 h-3.5" />
@@ -136,9 +136,9 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
     <!-- Timeline Workspace -->
     <div class="flex-1 flex flex-col relative overflow-hidden">
       <!-- Time Ruler Row -->
-      <div class="flex items-center h-6 bg-[#151822] border-b border-[#1c202d]">
+      <div class="flex items-center h-6 bg-[#191919] border-b border-[#242424]">
         <!-- Fixed tracks corner -->
-        <div class="w-36 shrink-0 px-3 border-r border-[#1c202d] text-[10px] font-mono text-zinc-500 flex items-center justify-between">
+        <div class="w-36 shrink-0 px-3 border-r border-[#242424] text-[10px] font-mono text-zinc-600 flex items-center justify-between">
           <span>TRACKS</span>
           <span class="text-zinc-600">16s</span>
         </div>
@@ -158,13 +158,13 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
           >
             <span
               class="text-[9px] font-mono -translate-x-1/2 pt-0.5 leading-none"
-              :class="m.time === 10 ? 'text-indigo-400 font-bold' : 'text-zinc-500'"
+              :class="m.time === 10 ? 'text-zinc-200 font-semibold' : 'text-zinc-600'"
             >
               {{ m.label }}
             </span>
             <div
               class="w-px h-1.5 self-center"
-              :class="m.time === 10 ? 'bg-indigo-400' : 'bg-zinc-700'"
+              :class="m.time === 10 ? 'bg-zinc-400' : 'bg-[#3a3a3a]'"
             ></div>
           </div>
         </div>
@@ -172,30 +172,30 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
 
       <!-- Tracks Container with Interactive Playhead -->
       <div class="flex-1 relative overflow-y-auto overflow-x-hidden">
-        <!-- Red/Indigo Playhead Line across all tracks -->
+        <!-- Playhead line across all tracks -->
         <div
-          class="absolute top-0 bottom-0 w-0.5 bg-red-500 z-30 pointer-events-none transition-none shadow-[0_0_8px_rgba(239,68,68,0.8)]"
+          class="absolute top-0 bottom-0 w-0.5 bg-[#d4d2cf] z-30 pointer-events-none transition-none"
           :style="{ left: `calc(9rem + (100% - 9rem) * ${playheadPercent / 100})` }"
         >
-          <div class="w-3 h-3 bg-red-500 rotate-45 -translate-x-1.5 -translate-y-1 shadow"></div>
+          <div class="w-2.5 h-2.5 bg-[#d4d2cf] rotate-45 -translate-x-[5px] -translate-y-0.5"></div>
         </div>
 
         <!-- TRACK 1: AI VIDEO (00:00 - 00:10) -->
-        <TimelineTrack name="TRACK 1: AI VIDEO" :icon="Sparkles" badgeColor="bg-emerald-500">
+        <TimelineTrack name="TRACK 1: AI VIDEO" :icon="Sparkles" badgeColor="bg-[#4e7d5b]">
           <TimelineClip
             v-if="projectStore.aiVideo"
             title="Veo AI Generated Clip"
             subtitle="10.0s [00:00 - 00:10]"
             :startTime="0"
             :duration="10"
-            colorClass="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white"
+            colorClass="bg-[#374b3c] border-[#4e7d5b] text-[#c4dcc9]"
             :isActive="videoStore.activeSegment === 'ai'"
             @click="selectClip('ai')"
           />
           <div
             v-else
             @click="editorStore.setActiveTab('ai')"
-            class="absolute left-0 top-1 bottom-1 w-[62.5%] rounded border border-dashed border-emerald-500/40 bg-emerald-950/20 text-emerald-400/80 text-[11px] font-medium flex items-center justify-center gap-1 cursor-pointer hover:bg-emerald-950/40 transition"
+            class="absolute left-0 top-1 bottom-1 w-[62.5%] rounded border border-dashed border-[#3a4a3e] bg-[#1e221e] text-[#6f8f76] text-[11px] font-medium flex items-center justify-center gap-1 cursor-pointer hover:bg-[#242a24] transition"
           >
             <Plus class="w-3 h-3" />
             <span>Generate 10s AI Video</span>
@@ -203,21 +203,21 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
         </TimelineTrack>
 
         <!-- TRACK 2: USER VIDEO (00:10 - 00:16) -->
-        <TimelineTrack name="TRACK 2: USER VIDEO" :icon="Film" badgeColor="bg-blue-500">
+        <TimelineTrack name="TRACK 2: USER VIDEO" :icon="Film" badgeColor="bg-[#54718c]">
           <TimelineClip
             v-if="projectStore.userVideo"
             :title="projectStore.userVideo.name"
             subtitle="6.0s [00:10 - 00:16]"
             :startTime="10"
             :duration="6"
-            colorClass="bg-gradient-to-r from-blue-700 to-blue-600 text-white"
+            colorClass="bg-[#39434e] border-[#54718c] text-[#c8d6e4]"
             :isActive="videoStore.activeSegment === 'user'"
             @click="selectClip('user')"
           />
           <div
             v-else
             @click="editorStore.setActiveTab('media')"
-            class="absolute left-[62.5%] top-1 bottom-1 w-[37.5%] rounded border border-dashed border-blue-500/40 bg-blue-950/20 text-blue-400/80 text-[11px] font-medium flex items-center justify-center gap-1 cursor-pointer hover:bg-blue-950/40 transition"
+            class="absolute left-[62.5%] top-1 bottom-1 w-[37.5%] rounded border border-dashed border-[#3a4450] bg-[#1d2126] text-[#71879c] text-[11px] font-medium flex items-center justify-center gap-1 cursor-pointer hover:bg-[#232830] transition"
           >
             <Plus class="w-3 h-3" />
             <span>Upload 6s Video</span>
@@ -233,20 +233,20 @@ function selectClip(track: 'ai' | 'user' | 'text', id?: string) {
             :subtitle="`${textItem.startTime}s - ${textItem.endTime}s`"
             :startTime="textItem.startTime"
             :duration="textItem.endTime - textItem.startTime"
-            colorClass="bg-gradient-to-r from-amber-600 to-amber-500 text-black font-semibold"
+            colorClass="bg-[#4a3e28] border-[#9c7a3c] text-[#e3d3ae] font-medium"
             :isActive="editorStore.selectedTextId === textItem.id"
             @click="selectClip('text', textItem.id)"
           />
         </TimelineTrack>
 
         <!-- TRACK 4: EFFECT -->
-        <TimelineTrack name="TRACK 4: EFFECT" :icon="Wand2" badgeColor="bg-purple-500">
+        <TimelineTrack name="TRACK 4: EFFECT" :icon="Wand2" badgeColor="bg-[#6f5f85]">
           <TimelineClip
             title="Cinematic Filters & Particle Overlay"
             subtitle="Applied on Klip 1 (00:00 - 00:10)"
             :startTime="0"
             :duration="10"
-            colorClass="bg-gradient-to-r from-purple-800 to-indigo-800 text-white"
+            colorClass="bg-[#413a4c] border-[#6f5f85] text-[#d3cbe0]"
             @click="editorStore.setActiveTab('filters')"
           />
         </TimelineTrack>

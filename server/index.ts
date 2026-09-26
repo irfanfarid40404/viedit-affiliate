@@ -31,6 +31,10 @@ app.get('/api/health', (_req, res) => {
     timestamp: new Date().toISOString(),
     ffmpeg: process.env.FFMPEG_PATH || '/opt/homebrew/bin/ffmpeg',
     geminiKeySet: Boolean(process.env.GEMINI_API_KEY),
+    routerKeySet: Boolean(process.env.NINEROUTER_API_KEY),
+    routerModel: process.env.NINEROUTER_MODEL || null,
+    magichourKeySet: Boolean(process.env.MAGICHOUR_API_KEY),
+    pixazoKeySet: Boolean(process.env.PIXAZO_API_KEY),
   })
 })
 

@@ -3,7 +3,6 @@ import { computed } from 'vue'
 import { useProjectStore } from '@/stores/projectStore'
 import { useEditorStore } from '@/stores/editorStore'
 import {
-  Sparkles,
   Download,
   FolderOpen,
   Save,
@@ -49,27 +48,22 @@ function openExport() {
 </script>
 
 <template>
-  <header class="h-14 bg-[#12141a] border-b border-[#232733] px-4 flex items-center justify-between select-none z-30 shrink-0">
+  <header class="h-12 bg-[#1c1c1c] border-b border-[#2c2c2c] px-4 flex items-center justify-between select-none z-30 shrink-0">
     <!-- Brand / Title -->
     <div class="flex items-center gap-3">
-      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-        <Sparkles class="w-4 h-4 text-white" />
+      <div class="flex items-center gap-2">
+        <span class="font-semibold text-[13px] tracking-tight text-zinc-100">Video Affiliate</span>
+        <span class="text-[10px] uppercase tracking-wider font-medium px-1.5 py-0.5 rounded bg-[#262626] text-zinc-500 border border-[#333]">16s Editor</span>
       </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="font-bold text-sm tracking-wide text-white">AI Video Generator</span>
-          <span class="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Pro 16s</span>
-        </div>
-        <input
-          v-model="projectStore.name"
-          class="bg-transparent text-xs text-zinc-400 hover:text-zinc-200 focus:text-white focus:bg-zinc-800/60 rounded px-1 -ml-1 border-none outline-none max-w-[180px] truncate"
-          title="Click to rename project"
-        />
-      </div>
+      <input
+        v-model="projectStore.name"
+        class="bg-transparent text-xs text-zinc-500 hover:text-zinc-300 focus:text-zinc-100 focus:bg-[#262626] rounded px-1.5 py-0.5 -ml-1 border border-transparent focus:border-[#3d3d3d] outline-none max-w-[180px] truncate"
+        title="Click to rename project"
+      />
     </div>
 
     <!-- Center: Aspect Ratio & Presets -->
-    <div class="hidden md:flex items-center gap-1 bg-[#171a22] p-1 rounded-lg border border-[#232733]">
+    <div class="hidden md:flex items-center gap-0.5 bg-[#171717] p-0.5 rounded-md border border-[#2c2c2c]">
       <button
         v-for="item in aspectRatios"
         :key="item.value"
@@ -77,8 +71,8 @@ function openExport() {
         class="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs transition font-medium"
         :class="[
           projectStore.aspectRatio === item.value
-            ? 'bg-indigo-600 text-white shadow'
-            : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+            ? 'bg-[#333333] text-zinc-100'
+            : 'text-zinc-500 hover:text-zinc-300'
         ]"
       >
         <component :is="item.icon" class="w-3.5 h-3.5" />
@@ -90,7 +84,7 @@ function openExport() {
     <div class="flex items-center gap-2">
       <button
         @click="handleNewProject"
-        class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-md border border-[#2b3040] transition"
+        class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-100 hover:bg-[#2a2a2a] rounded-md border border-[#2c2c2c] transition"
         title="Start fresh project"
       >
         <RotateCcw class="w-3.5 h-3.5" />
@@ -99,7 +93,7 @@ function openExport() {
 
       <button
         @click="handleSaveProject"
-        class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-300 hover:text-white hover:bg-zinc-800 rounded-md border border-[#2b3040] transition"
+        class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-100 hover:bg-[#2a2a2a] rounded-md border border-[#2c2c2c] transition"
         title="Save project configuration"
       >
         <Save class="w-3.5 h-3.5" />
@@ -108,10 +102,10 @@ function openExport() {
 
       <button
         @click="openExport"
-        class="flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white rounded-md text-xs font-semibold shadow-md shadow-indigo-600/30 transition transform active:scale-95"
+        class="flex items-center gap-2 px-3.5 py-1.5 bg-[#e0972f] hover:bg-[#eba63f] text-[#1a1205] rounded-md text-xs font-semibold transition active:scale-[0.98]"
       >
         <Download class="w-3.5 h-3.5" />
-        <span>Export Video</span>
+        <span>Export</span>
       </button>
     </div>
   </header>

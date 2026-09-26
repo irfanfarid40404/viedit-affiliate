@@ -25,18 +25,18 @@ const styleObject = computed(() => {
 
 <template>
   <div
-    class="absolute top-1 bottom-1 rounded-md px-2 py-1 flex flex-col justify-center select-none cursor-pointer transition-all border shadow-sm group"
+    class="absolute top-1 bottom-1 rounded px-2 py-1 flex flex-col justify-center select-none cursor-pointer transition-all border group"
     :class="[
       colorClass,
-      isActive ? 'ring-2 ring-white border-white' : 'border-black/20 hover:brightness-110'
+      isActive ? 'ring-1 ring-zinc-100 border-zinc-100' : 'hover:brightness-110'
     ]"
     :style="styleObject"
   >
-    <div class="flex items-center justify-between text-[11px] font-bold truncate leading-tight">
+    <div class="flex items-center justify-between text-[11px] font-medium truncate leading-tight">
       <span class="truncate">{{ title }}</span>
-      <span class="text-[9px] font-mono opacity-80 shrink-0 ml-1">{{ duration.toFixed(1) }}s</span>
+      <span class="text-[9px] font-mono opacity-70 shrink-0 ml-1">{{ duration.toFixed(1) }}s</span>
     </div>
-    <div v-if="subtitle" class="text-[9px] opacity-75 truncate leading-tight font-mono">
+    <div v-if="subtitle" class="text-[9px] opacity-60 truncate leading-tight font-mono">
       {{ subtitle }}
     </div>
   </div>

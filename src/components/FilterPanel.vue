@@ -88,15 +88,15 @@ function handleSaveCustomPreset() {
 <template>
   <div class="h-full flex flex-col p-4 space-y-4 overflow-y-auto">
     <!-- Header -->
-    <div class="flex items-center justify-between pb-2 border-b border-[#232733]">
+    <div class="flex items-center justify-between pb-2 border-b border-[#2c2c2c]">
       <div class="flex items-center gap-2">
-        <Sliders class="w-4 h-4 text-indigo-400" />
-        <h3 class="text-sm font-semibold text-white">Adjust Video Filter</h3>
+        <Sliders class="w-4 h-4 text-zinc-500" />
+        <h3 class="text-sm font-medium text-zinc-100">Adjust Video Filter</h3>
       </div>
       <div class="flex items-center gap-1.5">
         <button
           @click="handleApplyDefault"
-          class="text-[11px] px-2 py-1 rounded bg-indigo-500/15 text-indigo-300 hover:bg-indigo-500/25 border border-indigo-500/30 transition flex items-center gap-1"
+          class="text-[11px] px-2 py-1 rounded bg-[#262626] text-zinc-300 hover:bg-[#303030] border border-[#333] transition flex items-center gap-1"
           title="Restore Cinematic Default"
         >
           <Sparkles class="w-3 h-3" />
@@ -104,7 +104,7 @@ function handleSaveCustomPreset() {
         </button>
         <button
           @click="handleResetAll"
-          class="text-[11px] px-2 py-1 rounded bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition flex items-center gap-1"
+          class="text-[11px] px-2 py-1 rounded bg-[#262626] text-zinc-500 hover:text-zinc-200 hover:bg-[#303030] transition flex items-center gap-1"
           title="Reset all filters to 0"
         >
           <RotateCcw class="w-3 h-3" />
@@ -124,8 +124,8 @@ function handleSaveCustomPreset() {
           class="px-2 py-1.5 rounded-md text-[11px] font-medium truncate text-center border transition"
           :class="[
             p.name === 'Cinematic Default'
-              ? 'bg-[#181d28] border-indigo-500/40 text-indigo-200 hover:border-indigo-400'
-              : 'bg-[#14161f] border-[#252938] text-zinc-400 hover:text-zinc-200 hover:bg-[#1c202d]'
+              ? 'bg-[#2e2e2e] border-[#555] text-zinc-100'
+              : 'bg-[#242424] border-[#2c2c2c] text-zinc-500 hover:text-zinc-200 hover:bg-[#2a2a2a]'
           ]"
         >
           {{ p.name }}
@@ -239,13 +239,13 @@ function handleSaveCustomPreset() {
     </div>
 
     <!-- Save Preset Action -->
-    <div class="pt-3 border-t border-[#232733]">
+    <div class="pt-3 border-t border-[#2c2c2c]">
       <div v-if="!isSavingPreset">
         <button
           @click="isSavingPreset = true"
-          class="w-full py-2 px-3 rounded-md bg-[#1a1e2a] hover:bg-[#232838] border border-[#2b3144] text-xs font-medium text-zinc-300 flex items-center justify-center gap-2 transition"
+          class="w-full py-2 px-3 rounded-md bg-[#242424] hover:bg-[#2c2c2c] border border-[#333] text-xs font-medium text-zinc-300 flex items-center justify-center gap-2 transition"
         >
-          <BookmarkCheck class="w-3.5 h-3.5 text-indigo-400" />
+          <BookmarkCheck class="w-3.5 h-3.5 text-zinc-500" />
           <span>Save Current As Preset</span>
         </button>
       </div>
@@ -253,19 +253,19 @@ function handleSaveCustomPreset() {
         <input
           v-model="customPresetName"
           placeholder="Preset Name (e.g. My Style)"
-          class="w-full bg-[#161822] border border-[#2d3345] rounded px-3 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-indigo-500"
+          class="w-full bg-[#242424] border border-[#333] rounded px-3 py-1.5 text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:border-[#e0972f]"
           @keyup.enter="handleSaveCustomPreset"
         />
         <div class="flex items-center gap-2">
           <button
             @click="handleSaveCustomPreset"
-            class="flex-1 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded transition"
+            class="flex-1 py-1.5 bg-[#e0972f] hover:bg-[#eba63f] text-[#1a1205] text-xs font-semibold rounded transition"
           >
             Save
           </button>
           <button
             @click="isSavingPreset = false"
-            class="py-1.5 px-3 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 text-xs rounded transition"
+            class="py-1.5 px-3 bg-[#262626] hover:bg-[#303030] text-zinc-400 text-xs rounded transition"
           >
             Cancel
           </button>

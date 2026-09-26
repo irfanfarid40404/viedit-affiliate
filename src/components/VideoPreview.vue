@@ -483,7 +483,7 @@ function deselectText() {
 
 <template>
   <div
-    class="flex-1 bg-[#0b0c10] flex flex-col justify-between overflow-hidden relative"
+    class="flex-1 bg-[#131313] flex flex-col justify-between overflow-hidden relative"
     @click="deselectText"
   >
     <!-- Floating Text Toolbar if text is active -->
@@ -495,7 +495,7 @@ function deselectText() {
     <div ref="stageRef" class="flex-1 flex items-center justify-center p-3 sm:p-4 min-h-0 overflow-hidden relative">
       <div
         ref="containerRef"
-        class="relative bg-black rounded-2xl overflow-hidden shadow-2xl border border-[#2d3242] ring-1 ring-white/10 flex items-center justify-center transition-all duration-200"
+        class="relative bg-black rounded-md overflow-hidden border border-[#2c2c2c] flex items-center justify-center transition-all duration-200"
         :style="containerBoxStyle"
       >
         <!-- LAYER 0: AI Video Player (0s - 10s) -->
@@ -517,13 +517,13 @@ function deselectText() {
         <!-- Placeholder when AI video is empty -->
         <div
           v-if="!projectStore.aiVideo && videoStore.currentTime < 10"
-          class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-6 bg-gradient-to-b from-[#141724] to-[#0f1118]"
+          class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-6 bg-[#161616]"
         >
-          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-2.5 animate-pulse">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#242424] border border-[#333] flex items-center justify-center text-zinc-500 mb-2.5">
             <Sparkles class="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <span class="text-xs sm:text-sm font-semibold text-white mb-1">00:00 - 00:10: AI Video Track</span>
-          <p class="text-[11px] sm:text-xs text-zinc-400 max-w-[220px] sm:max-w-xs leading-relaxed">
+          <span class="text-xs sm:text-sm font-medium text-zinc-200 mb-1">00:00 - 00:10: AI Video Track</span>
+          <p class="text-[11px] sm:text-xs text-zinc-500 max-w-[220px] sm:max-w-xs leading-relaxed">
             Enter prompt in left sidebar and generate a 10s clip with Google Veo.
           </p>
         </div>
@@ -546,13 +546,13 @@ function deselectText() {
         <!-- Placeholder when User video is empty -->
         <div
           v-if="!projectStore.userVideo && videoStore.currentTime >= 10"
-          class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-6 bg-gradient-to-b from-[#10192a] to-[#0d121c]"
+          class="absolute inset-0 flex flex-col items-center justify-center text-center p-4 sm:p-6 bg-[#161616]"
         >
-          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-2.5 animate-pulse">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#242424] border border-[#333] flex items-center justify-center text-zinc-500 mb-2.5">
             <Film class="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <span class="text-xs sm:text-sm font-semibold text-white mb-1">00:10 - 00:16: User Video Track</span>
-          <p class="text-[11px] sm:text-xs text-zinc-400 max-w-[220px] sm:max-w-xs leading-relaxed">
+          <span class="text-xs sm:text-sm font-medium text-zinc-200 mb-1">00:10 - 00:16: User Video Track</span>
+          <p class="text-[11px] sm:text-xs text-zinc-500 max-w-[220px] sm:max-w-xs leading-relaxed">
             Upload your 6-second video to complete the 16-second final video.
           </p>
         </div>
@@ -614,8 +614,8 @@ function deselectText() {
         />
 
         <!-- Watermark / Aspect Badge (Top Right) -->
-        <div class="absolute top-3 right-3 bg-black/70 backdrop-blur px-2 py-0.5 rounded-md text-[10px] font-mono text-zinc-300 border border-white/10 pointer-events-none flex items-center gap-1 shadow-md">
-          <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+        <div class="absolute top-3 right-3 bg-black/70 px-2 py-0.5 rounded text-[10px] font-mono text-zinc-400 border border-white/10 pointer-events-none flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#e0972f]"></span>
           <span>{{ projectStore.aspectRatio }}</span>
         </div>
       </div>

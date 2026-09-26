@@ -44,7 +44,7 @@ const isChanged = computed(() => props.modelValue !== props.defaultValue)
       <div class="flex items-center gap-1.5">
         <span
           class="font-mono text-[11px] px-1.5 py-0.5 rounded"
-          :class="isChanged ? 'text-indigo-400 font-semibold bg-indigo-500/10' : 'text-zinc-400 bg-zinc-800/40'"
+          :class="isChanged ? 'text-zinc-100 font-semibold bg-[#2e2e2e]' : 'text-zinc-500 bg-[#242424]'"
         >
           {{ modelValue > 0 && min < 0 ? '+' : '' }}{{ modelValue }}{{ unit }}
         </span>
@@ -61,15 +61,15 @@ const isChanged = computed(() => props.modelValue !== props.defaultValue)
 
     <!-- Slider with track -->
     <div class="relative flex items-center">
-      <input
-        type="range"
-        :min="min"
-        :max="max"
-        :step="step"
-        :value="modelValue"
-        @input="onInput"
-        class="w-full h-1.5 bg-[#232733] rounded-lg appearance-none cursor-pointer accent-indigo-500 hover:accent-indigo-400"
-      />
+        <input
+          type="range"
+          :min="min"
+          :max="max"
+          :step="step"
+          :value="modelValue"
+          @input="onInput"
+          class="w-full h-1.5 bg-[#2e2e2e] rounded-lg appearance-none cursor-pointer"
+        />
     </div>
   </div>
 </template>
