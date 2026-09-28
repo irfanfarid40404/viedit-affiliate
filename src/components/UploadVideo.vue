@@ -54,6 +54,18 @@ async function processFile(file: File) {
     } else {
       editorStore.notify('success', `User video uploaded (${clip.duration.toFixed(1)}s)`)
     }
+
+    // Auto-sync video to Vercel Blob cloud storage
+    videoService.uploadToBlob(file)
+      .then((uploaded) => {
+        if (uploaded?.url && projectStore.userVideo) {
+          projectStore.userVideo.cloudUrl = uploaded.url
+          editorStore.notify('success', 'Video synced to Vercel Blob cloud storage!')
+        }
+      })
+      .catch((err) => {
+        console.warn('Cloud sync skipped:', err.message)
+      })
   } catch (err: any) {
     editorStore.notify('error', err.message || 'Failed to process uploaded video')
   } finally {

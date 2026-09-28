@@ -2,12 +2,35 @@ import { Router } from 'express'
 import multer from 'multer'
 import path from 'node:path'
 import fs from 'node:fs'
+import { put } from '@vercel/blob'
 import { geminiVeoService } from '../services/geminiVeoService'
 import { videoExportService } from '../services/videoExportService'
 
 export const videoRouter = Router()
 
-// Configure Multer for video file upload
+// Memory storage for Vercel Blob uploads
+const memoryUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 500 * 1024 * 1024 }, // 500MB
+  fileFilter: (_req, file, cb) => {
+    const allowed = [
+      'video/mp4',
+      'video/quicktime',
+      'video/webm',
+      'video/x-matroska',
+      'image/png',
+      'image/jpeg',
+      'image/webp',
+    ]
+    if (allowed.includes(file.mimetype) || /\.(mp4|mov|webm|mkv|png|jpg|jpeg|webp)$/i.test(file.originalname)) {
+      cb(null, true)
+    } else {
+      cb(new Error('Invalid file format. Supported: MP4, MOV, WebM, MKV, PNG, JPG'))
+    }
+  },
+})
+
+// Configure Multer for local video file upload
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => {
     const uploadDir = path.join(process.cwd(), 'uploads')
@@ -64,6 +87,49 @@ videoRouter.post('/upload-video', upload.single('video'), (req, res) => {
       url: fileUrl,
     },
   })
+})
+
+/**
+ * 1b. Upload to Vercel Blob Endpoint
+ * POST /api/upload-blob
+ */
+videoRouter.post('/upload-blob', memoryUpload.single('video'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file provided' })
+    }
+
+    const token = process.env.BLOB_READ_WRITE_TOKEN
+    if (!token || token === '[SENSITIVE]') {
+      return res.status(500).json({
+        error: 'BLOB_READ_WRITE_TOKEN is missing or marked [SENSITIVE]. Please set the real token in .env or .env.local',
+      })
+    }
+
+    const ext = path.extname(req.file.originalname)
+    const blobKey = `videos/upload-${Date.now()}-${Math.random().toString(36).substring(2, 8)}${ext}`
+
+    const blob = await put(blobKey, req.file.buffer, {
+      access: 'public',
+      contentType: req.file.mimetype,
+      token,
+    })
+
+    res.json({
+      success: true,
+      file: {
+        filename: req.file.originalname,
+        size: req.file.size,
+        mimetype: req.file.mimetype,
+        url: blob.url,
+        downloadUrl: blob.downloadUrl,
+        pathname: blob.pathname,
+      },
+    })
+  } catch (error: any) {
+    console.error('Vercel Blob upload failed:', error)
+    res.status(500).json({ error: error.message || 'Failed to upload to Vercel Blob' })
+  }
 })
 
 /**
@@ -129,8 +195,8 @@ videoRouter.post(
         try {
           const parsed = JSON.parse(req.body.projectJson)
           exportPayload = {
-            aiVideoUrl: parsed.aiVideo?.url || parsed.aiVideoUrl,
-            userVideoUrl: parsed.userVideo?.url || parsed.userVideoUrl,
+            aiVideoUrl: parsed.aiVideo?.cloudUrl || parsed.aiVideo?.url || parsed.aiVideoUrl,
+            userVideoUrl: parsed.userVideo?.cloudUrl || parsed.userVideo?.url || parsed.userVideoUrl,
             userVideoTrimStart: parsed.userVideo?.trimStart !== undefined ? parsed.userVideo.trimStart : parsed.userVideoTrimStart,
             userVideoTrimEnd: parsed.userVideo?.trimEnd !== undefined ? parsed.userVideo.trimEnd : parsed.userVideoTrimEnd,
             userVideoCrop: parsed.userVideo?.crop || parsed.userVideoCrop,

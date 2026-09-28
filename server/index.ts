@@ -4,8 +4,8 @@ import path from 'node:path'
 import dotenv from 'dotenv'
 import { videoRouter } from './routes/videoRoutes'
 
-// Load environment variables
-dotenv.config()
+// Load environment variables (.env.local takes precedence over .env)
+dotenv.config({ path: ['.env.local', '.env'] })
 
 const app = express()
 const PORT = process.env.PORT || 5001

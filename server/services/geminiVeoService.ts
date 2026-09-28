@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawn, spawnSync } from 'node:child_process'
+import { put } from '@vercel/blob'
 
 export interface VeoGenerationRequest {
   prompt: string
@@ -51,6 +52,30 @@ function completeTask(task: VeoTaskStatus, videoUrl: string, engine: VeoTaskStat
   task.progress = 100
   task.engine = engine
   task.videoUrl = videoUrl
+
+  const token = process.env.BLOB_READ_WRITE_TOKEN
+  if (token && token !== '[SENSITIVE]' && videoUrl.startsWith('/generated/')) {
+    const localFilePath = path.join(process.cwd(), videoUrl.replace('/', ''))
+    if (fs.existsSync(localFilePath)) {
+      try {
+        const buffer = fs.readFileSync(localFilePath)
+        const filename = path.basename(localFilePath)
+        put(`generated/${filename}`, buffer, {
+          access: 'public',
+          contentType: 'video/mp4',
+          token,
+        })
+          .then((blob) => {
+            task.videoUrl = blob.url
+          })
+          .catch((err) => {
+            console.warn('[Blob Veo Upload Warning]:', err?.message)
+          })
+      } catch (err: any) {
+        console.warn('[Blob Veo Buffer Error]:', err?.message)
+      }
+    }
+  }
 }
 
 function armWatchdog(operationId: string) {

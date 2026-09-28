@@ -31,6 +31,7 @@ export const DEFAULT_CROP_SETTINGS: VideoCropSettings = {
 export interface VideoClip {
   id: string
   url: string
+  cloudUrl?: string
   file?: File
   name: string
   duration: number

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawn } from 'node:child_process'
+import { put } from '@vercel/blob'
 
 export interface TextOverlayExport {
   text: string
@@ -212,9 +213,12 @@ export const videoExportService = {
         targetH = is1080p ? 1080 : 720
       }
 
-      // Resolve local paths for videos
+      // Resolve local or remote paths for videos
       const resolveLocalPath = (fileUrl?: string): string | null => {
         if (!fileUrl) return null
+        if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+          return fileUrl
+        }
         if (fileUrl.startsWith('/uploads/')) {
           return path.join(rootDir, fileUrl.replace('/', ''))
         }
@@ -498,6 +502,22 @@ export const videoExportService = {
       job.message = 'Export completed!'
       job.videoUrl = `/exports/${outputFilename}`
       job.downloadUrl = `/exports/${outputFilename}`
+
+      const token = process.env.BLOB_READ_WRITE_TOKEN
+      if (token && token !== '[SENSITIVE]' && fs.existsSync(finalOutputPath)) {
+        try {
+          const buffer = fs.readFileSync(finalOutputPath)
+          const blob = await put(`exports/${outputFilename}`, buffer, {
+            access: 'public',
+            contentType: 'video/mp4',
+            token,
+          })
+          job.videoUrl = blob.url
+          job.downloadUrl = blob.downloadUrl || blob.url
+        } catch (blobErr: any) {
+          console.warn('[Vercel Blob Export Upload Warning]:', blobErr?.message)
+        }
+      }
     } catch (err: any) {
       console.error('[Export Error]:', err)
       job.status = 'failed'

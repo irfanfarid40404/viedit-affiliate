@@ -135,6 +135,27 @@ export const videoService = {
   },
 
   /**
+   * Upload video file directly to Vercel Blob via server endpoint
+   */
+  async uploadToBlob(file: File): Promise<{ url: string; filename: string }> {
+    const formData = new FormData()
+    formData.append('video', file)
+
+    const response = await fetch('/api/upload-blob', {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}))
+      throw new Error(err.error || 'Failed to upload video to Vercel Blob')
+    }
+
+    const data = await response.json()
+    return data.file
+  },
+
+  /**
    * Format seconds to mm:ss or mm:ss:ms
    */
   formatTime(seconds: number, includeMs = false): string {
