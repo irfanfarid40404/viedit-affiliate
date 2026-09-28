@@ -1,5 +1,6 @@
 import type { ProjectState } from '@/types/project'
 import { videoService } from './videoService'
+import { browserExportService } from './browserExportService'
 import { useEditorStore } from '@/stores/editorStore'
 
 export interface ExportProgressEvent {
@@ -12,13 +13,30 @@ export type ProgressCallback = (event: ExportProgressEvent) => void
 
 export const ffmpegService = {
   /**
-   * Request backend export with FFmpeg
+   * Request export: automatically uses Browser Canvas Exporter on Vercel domain,
+   * or falls back seamlessly if server FFmpeg is unavailable.
    */
   async exportVideo(
     project: ProjectState,
     onProgress: ProgressCallback
   ): Promise<{ success: boolean; downloadUrl?: string; error?: string }> {
     try {
+      // Check if server is local and alive
+      let isLocalServerAlive = false
+      if (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        try {
+          const ping = await fetch('/api/health', { signal: AbortSignal.timeout(1200) })
+          if (ping.ok) isLocalServerAlive = true
+        } catch {
+          isLocalServerAlive = false
+        }
+      }
+
+      // If running on Vercel / remote domain or local server is not active: run browser exporter
+      if (!isLocalServerAlive) {
+        return await browserExportService.exportProject(project, onProgress)
+      }
+
       onProgress({
         phase: 'Preparing',
         percent: 10,
@@ -124,15 +142,8 @@ export const ffmpegService = {
         }, 1200)
       })
     } catch (err: any) {
-      onProgress({
-        phase: 'Failed',
-        percent: 0,
-        message: err.message || 'Export failed',
-      })
-      return {
-        success: false,
-        error: err.message || 'Export error',
-      }
+      console.warn('Server FFmpeg exporter failed, falling back to browser Canvas export:', err.message)
+      return await browserExportService.exportProject(project, onProgress)
     }
   },
 }
