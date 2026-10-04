@@ -1,4 +1,4 @@
-# AI Video Generator & CapCut-Style Editor
+# AI Video Generator & CapCut-Style Editors
 
 A modern, high-performance web application built with **Vue.js 3**, **TypeScript**, **Pinia**, **Tailwind CSS**, and **Node.js/FFmpeg**.
 
