@@ -119,3 +119,5 @@ VideoAffiliate/
 ├── generated/                  # AI-generated video clips
 └── exports/                    # Final exported 16s MP4 compositions
 ```
+
+<!-- Project documentation note -->
